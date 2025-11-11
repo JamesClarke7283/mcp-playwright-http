@@ -33,6 +33,27 @@ A Model Context Protocol server that provides browser automation capabilities us
 
 ## [Documentation](https://executeautomation.github.io/mcp-playwright/) | [API reference](https://executeautomation.github.io/mcp-playwright/docs/playwright-web/Supported-Tools)
 
+## Environment Variables
+
+The container / server can be configured via the following environment variables:
+
+- MCP_PROXY_HOST
+  - Default: `0.0.0.0`
+  - Host interface for the HTTP endpoint exposed by `mcp-proxy` inside Docker.
+
+- MCP_PROXY_PORT
+  - Default: `8080`
+  - HTTP port used by `mcp-proxy` inside the container. When using `docker-compose.yml`, this is also exported to the host:
+    - `${MCP_PROXY_PORT:-8080}:8080`
+
+- MCP_PROXY_EXTRA_ARGS
+  - Default: empty
+  - Extra arguments passed directly to `mcp-proxy` (Python CLI), for advanced configuration (logging, etc).
+
+- PLAYWRIGHT_BROWSERS
+  - Default: `chromium,firefox,webkit`
+  - Comma-separated list of Playwright browsers to install/use inside the image.
+
 ## Installation
 
 You can install the package using either npm, mcp-get, or Smithery:

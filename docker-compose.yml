@@ -7,12 +7,18 @@ services:
     container_name: playwright-mcp-server
     stdin_open: true
     tty: true
-    # MCP servers communicate via stdio
-    # You can interact with this container using:
-    # docker compose run --rm playwright-mcp
+    # HTTP endpoint exposed via mcp-proxy (Python) running inside the container
+    ports:
+      - "${MCP_PROXY_PORT:-8080}:8080"
     environment:
-      # Skip browser download in container
-      - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+      # Host/port for mcp-proxy HTTP binding
+      - MCP_PROXY_HOST=0.0.0.0
+      - MCP_PROXY_PORT=${MCP_PROXY_PORT:-8080}
+      # Extra args passed directly to mcp-proxy (optional)
+      - MCP_PROXY_EXTRA_ARGS=${MCP_PROXY_EXTRA_ARGS:-}
+      # Comma-separated list of Playwright browsers to install/use
+      # e.g. "chromium", "firefox", "webkit"
+      - PLAYWRIGHT_BROWSERS=${PLAYWRIGHT_BROWSERS:-chromium,firefox,webkit}
     # Optionally mount a volume for persistent data
     # volumes:
     #   - ./data:/app/data
